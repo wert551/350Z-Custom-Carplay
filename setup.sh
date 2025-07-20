@@ -13,7 +13,15 @@ USER_HOME="/home/${SUDO_USER:-pi}"
 
 echo "Installing packages…"
 apt update
-apt install -y mpv celluloid python3-gpiozero xbindkeys
+apt install -y mpv celluloid python3-gpiozero xbindkeys git curl
+
+#--- Clone React-carplay-350z
+echo "Cloning React-CarPlay into ${USER_HOME}/react-carplay-350Z…"
+su - "${SUDO_USER:-pi}" -c "git clone https://github.com/rhysmorgan134/react-carplay.git ${USER_HOME}/react-carplay-350Z"
+
+echo "Running React-CarPlay’s own setup.sh…"
+su - "${SUDO_USER:-pi}" -c "cd ${USER_HOME}/react-carplay-350Z && bash setup.sh"
+
 
 echo "Deploying toggle_media.sh…"
 install -m 755 "$REPO_DIR/toggle_media.sh" /usr/local/bin/toggle_media.sh
