@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # toggle_media.sh: swap between React-CarPlay and Kodi
 CARPLAY_CMD="DISPLAY=:0 /home/pi/react-carplay/start.sh"
 KODI_CMD="DISPLAY=:0 kodi-standalone --fs"
