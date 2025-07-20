@@ -68,10 +68,10 @@ log() {
 }
 
 if is_carplay_running; then
-  log "CarPlay running → switching to celluloid"
+  log "CarPlay running → switching to Celluloid"
   play_intro_and_wait_for "celluloid"
 elif is_celluloid_running; then
-  log "celluloid running → switching to CarPlay"
+  log "Celluloid running → switching to CarPlay"
   play_intro_and_wait_for "react-carplay"
 else
   log "Neither running → launching CarPlay"
