@@ -2,7 +2,7 @@
 
 export DISPLAY=:0
 
-CARPLAY_CMD="/home/pi/react-carplay/start.sh"
+CARPLAY_CMD="/home/pi/Desktop/Carplay.AppImage"
 DASHCAM_PATH="/media/pi/DASHCAM/DCIM"
 
 if [ -d "$DASHCAM_PATH" ]; then
