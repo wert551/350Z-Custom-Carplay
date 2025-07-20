@@ -8,40 +8,44 @@ INTRO_PATH="$HOME/350Z-Custom-Carplay/Carplay_intro"
 
 play_intro_and_wait_for() {
   local target_process="$1"
+  local kill_process
   local last_frame="$INTRO_PATH/frame_0099.png"
 
+  if [ "$target_process" == "haruna" ]; then
+    kill_process="react-carplay"
+  else
+    kill_process="haruna"
+  fi
+
   if [ -d "$INTRO_PATH" ]; then
-    # 1. Start splash animation in background
+    log "Launching splash..."
     mpv --loop=no --fs --image-display-duration=0.033 --no-audio "$INTRO_PATH"/frame_0*.png &
     local splash_pid=$!
 
-    # 2. Wait for MPV splash process to become visible
-    while ! xdotool search --class mpv > /dev/null 2>&1; do
-      sleep 0.1
-    done
+    # Wait ~1.5 seconds to ensure splash is visible before killing anything
+    sleep 1.5
 
-    # 3. Now kill the current app
-    if [ "$target_process" == "haruna" ]; then
-      pkill -f react-carplay
-    else
-      pkill -f haruna
-    fi
+    log "Killing $kill_process..."
+    pkill -f "$kill_process"
 
-    # 4. Wait for splash animation to finish
+    # Wait for the animation to finish
     wait $splash_pid
 
-    # 5. Launch next app in background
+    log "Launching $target_process..."
     if [ "$target_process" == "haruna" ]; then
       "${MEDIA_CMD[@]}" &
     else
       DISPLAY=:0 "$CARPLAY_CMD" &
     fi
 
-    # 6. Show last frame until next app appears
+    # Hold last frame until next app is detected
     until pgrep -f "$target_process" > /dev/null; do
+      log "Waiting for $target_process to start..."
       mpv --fs --no-audio --image-display-duration=9999 --loop-file=no "$last_frame"
       sleep 0.5
     done
+
+    log "$target_process started. Transition complete."
   fi
 }
 
