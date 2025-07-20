@@ -8,7 +8,7 @@ INTRO_PATH="$HOME/350Z-Custom-Carplay/Carplay_intro"
 
 play_intro() {
   if [ -d "$INTRO_PATH" ]; then
-    mpv --loop=no --fs --image-display-duration=0.033 --no-audio "$INTRO_PATH"/frame_%04d.png
+    mpv --loop=no --fs --image-display-duration=0.033 --no-audio "$INTRO_PATH"/frame_0*.png
   fi
 }
 
