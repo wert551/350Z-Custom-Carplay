@@ -13,7 +13,7 @@ USER_HOME="/home/${SUDO_USER:-pi}"
 
 echo "Installing packages…"
 apt update
-apt install -y mpv xdotool haruna python3-gpiozero xbindkeys
+apt install -y mpv haruna python3-gpiozero xbindkeys
 
 echo "Deploying toggle_media.sh…"
 install -m 755 "$REPO_DIR/toggle_media.sh" /usr/local/bin/toggle_media.sh
