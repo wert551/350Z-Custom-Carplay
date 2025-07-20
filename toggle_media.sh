@@ -11,10 +11,10 @@ play_intro_and_wait_for() {
   local kill_process
   local last_frame="$INTRO_PATH/frame_0099.png"
 
-  if [ "$target_process" == "haruna" ]; then
+  if [ "$target_process" == "celluloid" ]; then
     kill_process="react-carplay"
   else
-    kill_process="haruna"
+    kill_process="celluloid"
   fi
 
   if [ -d "$INTRO_PATH" ]; then
@@ -29,7 +29,7 @@ play_intro_and_wait_for() {
     pkill -f "$kill_process"
 
     log "Launching $target_process..."
-    if [ "$target_process" == "haruna" ]; then
+    if [ "$target_process" == "celluloid" ]; then
       "${MEDIA_CMD[@]}" &
     else
       DISPLAY=:0 "$CARPLAY_CMD" &
@@ -50,17 +50,17 @@ play_intro_and_wait_for() {
 }
 
 if [ -d "$DASHCAM_PATH" ]; then
-  MEDIA_CMD=("haruna" "$DASHCAM_PATH")
+  MEDIA_CMD=("celluloid" "$DASHCAM_PATH")
 else
-  MEDIA_CMD=("haruna")
+  MEDIA_CMD=("celluloid")
 fi
 
 is_carplay_running() {
   pgrep -f react-carplay > /dev/null
 }
 
-is_haruna_running() {
-  pgrep -f haruna > /dev/null
+is_celluloid_running() {
+  pgrep -f celluloid > /dev/null
 }
 
 log() {
@@ -68,10 +68,10 @@ log() {
 }
 
 if is_carplay_running; then
-  log "CarPlay running → switching to Haruna"
-  play_intro_and_wait_for "haruna"
-elif is_haruna_running; then
-  log "Haruna running → switching to CarPlay"
+  log "CarPlay running → switching to celluloid"
+  play_intro_and_wait_for "celluloid"
+elif is_celluloid_running; then
+  log "celluloid running → switching to CarPlay"
   play_intro_and_wait_for "react-carplay"
 else
   log "Neither running → launching CarPlay"
