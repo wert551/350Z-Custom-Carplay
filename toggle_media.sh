@@ -5,31 +5,34 @@ export DISPLAY=:0
 CARPLAY_CMD="/home/pi/react-carplay/start.sh"
 DASHCAM_PATH="/media/pi/DASHCAM/DCIM"
 
-# Use actual process name for Haruna (detectable by this string)
-MEDIA_PROCESS="haruna"
-
+# Determine whether dashcam folder is available
 if [ -d "$DASHCAM_PATH" ]; then
-  MEDIA_CMD="haruna \"$DASHCAM_PATH\""
+  MEDIA_CMD=("haruna" "$DASHCAM_PATH")
 else
-  MEDIA_CMD="haruna"
+  MEDIA_CMD=("haruna")
 fi
 
-kill_if_running() {
-  local process_name="$1"
-  pgrep -f "$process_name" && pkill -f "$process_name"
+# Detect running processes
+is_carplay_running() {
+  pgrep -f react-carplay > /dev/null
 }
 
-if pgrep -f react-carplay > /dev/null; then
-  # CarPlay is running → switch to Haruna
-  kill_if_running react-carplay
+is_haruna_running() {
+  pgrep -f haruna > /dev/null
+}
+
+# Toggle logic
+if is_carplay_running; then
+  echo "[TOGGLE] CarPlay running → switching to Haruna"
+  pkill -f react-carplay
   sleep 1
-  eval $MEDIA_CMD &
-elif pgrep -f "$MEDIA_PROCESS" > /dev/null; then
-  # Haruna is running → switch to CarPlay
-  kill_if_running "$MEDIA_PROCESS"
+  "${MEDIA_CMD[@]}" &
+elif is_haruna_running; then
+  echo "[TOGGLE] Haruna running → switching to CarPlay"
+  pkill -f haruna
   sleep 1
-  $CARPLAY_CMD &
+  bash -c "$CARPLAY_CMD" &
 else
-  # Nothing running, fallback to CarPlay
-  $CARPLAY_CMD &
+  echo "[TOGGLE] Neither running → launching CarPlay"
+  bash -c "$CARPLAY_CMD" &
 fi
