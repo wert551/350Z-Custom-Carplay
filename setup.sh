@@ -19,8 +19,8 @@ apt install -y mpv celluloid python3-gpiozero xbindkeys git curl
 echo "Cloning React-CarPlay into ${USER_HOME}/react-carplay-350Z…"
 su - "${SUDO_USER:-pi}" -c "git clone https://github.com/rhysmorgan134/react-carplay.git ${USER_HOME}/react-carplay-350Z"
 
-echo "Running React-CarPlay’s own setup.sh…"
-su - "${SUDO_USER:-pi}" -c "cd ${USER_HOME}/react-carplay-350Z && bash setup.sh"
+echo "Running React-CarPlay-350Z’s own setup-pi.sh…"
+su - "${SUDO_USER:-pi}" -c "cd ${USER_HOME}/react-carplay-350Z && bash setup-pi.sh"
 
 
 echo "Deploying toggle_media.sh…"
