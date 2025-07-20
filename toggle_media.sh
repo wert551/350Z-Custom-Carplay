@@ -2,7 +2,7 @@
 
 export DISPLAY=:0
 
-CARPLAY_CMD="/home/pi/Desktop/Carplay.AppImage"
+CARPLAY_CMD="$HOME/Desktop/Carplay.AppImage"
 DASHCAM_PATH="/media/pi/DASHCAM/DCIM"
 
 if [ -d "$DASHCAM_PATH" ]; then
@@ -32,8 +32,8 @@ elif is_haruna_running; then
   log "Haruna running → switching to CarPlay"
   pkill -f haruna
   sleep 1
-  DISPLAY=:0 /home/pi/Desktop/Carplay.AppImage &
+  DISPLAY=:0 "$HOME/Desktop/Carplay.AppImage" &
 else
   log "Neither running → launching CarPlay"
-  DISPLAY=:0 /home/pi/Desktop/Carplay.AppImage &
+  DISPLAY=:0 "$HOME/Desktop/Carplay.AppImage" &
 fi
