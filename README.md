@@ -3,7 +3,7 @@ Custom Carplay setup for my 350z using React-carplay and other software
 
 ## Quickstart
 
-git clone https://github.com/wert551/350Z-Custom-Carplay.git \
-  && cd 350Z-Custom-Carplay \
-  && sudo ./setup.sh
+git clone https://github.com/wert551/350Z-Custom-Carplay.git
+cd 350Z-Custom-Carplay
+sudo ./setup.sh
 
