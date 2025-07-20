@@ -3,8 +3,15 @@
 export DISPLAY=:0
 
 CARPLAY_CMD="/home/pi/react-carplay/start.sh"
-MEDIA_DIR="/media/usb"  # update this if your dashcam mounts elsewhere
-VLC_CMD="vlc --fullscreen --qt-start-minimized $MEDIA_DIR"
+MEDIA_DIR="/media/usb"
+VLC_BASE="vlc --fullscreen --qt-start-minimized"
+
+# Decide whether to pass the media folder
+if [ -d "$MEDIA_DIR" ] && find "$MEDIA_DIR" -type f | grep -q .; then
+  VLC_CMD="$VLC_BASE $MEDIA_DIR"
+else
+  VLC_CMD="$VLC_BASE"
+fi
 
 kill_if_running() {
   pgrep -f "$1" && pkill -f "$1"
