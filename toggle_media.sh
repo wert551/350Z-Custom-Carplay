@@ -3,26 +3,20 @@
 export DISPLAY=:0
 
 CARPLAY_CMD="/home/pi/react-carplay/start.sh"
-MEDIA_DIR="/media/usb"
-VLC_BASE="vlc --fullscreen --qt-start-minimized"
-
-# Decide whether to pass the media folder
-if [ -d "$MEDIA_DIR" ] && find "$MEDIA_DIR" -type f | grep -q .; then
-  VLC_CMD="$VLC_BASE $MEDIA_DIR"
-else
-  VLC_CMD="$VLC_BASE"
-fi
+MEDIA_CMD="celluloid /media/pi/DASHCAM/DCIM"
 
 kill_if_running() {
   pgrep -f "$1" && pkill -f "$1"
 }
 
 if pgrep -f react-carplay > /dev/null; then
+  # CarPlay is running → switch to media player
   kill_if_running react-carplay
   sleep 1
-  $VLC_CMD &
+  $MEDIA_CMD &
 else
-  kill_if_running vlc
+  # Media player is running → switch back to CarPlay
+  kill_if_running celluloid
   sleep 1
   $CARPLAY_CMD &
 fi
