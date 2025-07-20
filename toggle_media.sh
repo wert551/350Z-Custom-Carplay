@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
 export DISPLAY=:0
-DASHCAM_PATH="/media/pi/DASHCAM/DCIM"
+
 CARPLAY_CMD="/home/pi/react-carplay/start.sh"
+DASHCAM_PATH="/media/pi/DASHCAM/DCIM"
 
 if [ -d "$DASHCAM_PATH" ]; then
-  HARUNA_CMD="flatpak run org.kde.haruna \"$DASHCAM_PATH\""
+  MEDIA_CMD="haruna \"$DASHCAM_PATH\""
 else
-  HARUNA_CMD="flatpak run org.kde.haruna --fullscreen"
+  MEDIA_CMD="haruna"
 fi
 
 kill_if_running() {
@@ -17,7 +18,7 @@ kill_if_running() {
 if pgrep -f react-carplay > /dev/null; then
   kill_if_running react-carplay
   sleep 1
-  eval $HARUNA_CMD &
+  eval $MEDIA_CMD &
 else
   kill_if_running haruna
   sleep 1
