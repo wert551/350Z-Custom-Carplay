@@ -22,14 +22,11 @@ play_intro_and_wait_for() {
     mpv --loop=no --fs --image-display-duration=0.033 --no-audio "$INTRO_PATH"/frame_0*.png &
     local splash_pid=$!
 
-    # Wait ~1.5 seconds to ensure splash is visible before killing anything
-    sleep 1.5
+    # Allow MPV time to appear
+    sleep 1
 
     log "Killing $kill_process..."
     pkill -f "$kill_process"
-
-    # Wait for the animation to finish
-    wait $splash_pid
 
     log "Launching $target_process..."
     if [ "$target_process" == "haruna" ]; then
@@ -38,7 +35,10 @@ play_intro_and_wait_for() {
       DISPLAY=:0 "$CARPLAY_CMD" &
     fi
 
-    # Hold last frame until next app is detected
+    # Wait for the splash animation to complete
+    wait $splash_pid
+
+    # If new app hasn't started yet, show the last frame until it does
     until pgrep -f "$target_process" > /dev/null; do
       log "Waiting for $target_process to start..."
       mpv --fs --no-audio --image-display-duration=9999 --loop-file=no "$last_frame"
