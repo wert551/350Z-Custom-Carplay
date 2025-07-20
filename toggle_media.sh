@@ -11,22 +11,33 @@ play_intro_and_wait_for() {
   local last_frame="$INTRO_PATH/frame_0099.png"
 
   if [ -d "$INTRO_PATH" ]; then
-    # 1. Start animation in background
+    # 1. Start splash animation in background
     mpv --loop=no --fs --image-display-duration=0.033 --no-audio "$INTRO_PATH"/frame_0*.png &
+    local splash_pid=$!
 
-    # 2. Kill current app and launch next in parallel
+    # 2. Wait for MPV splash process to become visible
+    while ! xdotool search --class mpv > /dev/null 2>&1; do
+      sleep 0.1
+    done
+
+    # 3. Now kill the current app
     if [ "$target_process" == "haruna" ]; then
       pkill -f react-carplay
-      "${MEDIA_CMD[@]}" &
     else
       pkill -f haruna
+    fi
+
+    # 4. Wait for splash animation to finish
+    wait $splash_pid
+
+    # 5. Launch next app in background
+    if [ "$target_process" == "haruna" ]; then
+      "${MEDIA_CMD[@]}" &
+    else
       DISPLAY=:0 "$CARPLAY_CMD" &
     fi
 
-    # 3. Wait for animation to finish
-    wait
-
-    # 4. Hold on last frame until new app is running
+    # 6. Show last frame until next app appears
     until pgrep -f "$target_process" > /dev/null; do
       mpv --fs --no-audio --image-display-duration=9999 --loop-file=no "$last_frame"
       sleep 0.5
