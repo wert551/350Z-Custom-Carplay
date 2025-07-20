@@ -1,0 +1,12 @@
+[Unit]
+Description=GPIO Toggle Service
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/python3 /usr/local/bin/gpio_toggle.py
+Restart=on-failure
+User=pi
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=multi-user.target
