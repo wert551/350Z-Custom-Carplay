@@ -3,27 +3,20 @@
 export DISPLAY=:0
 
 CARPLAY_CMD="/home/pi/react-carplay/start.sh"
-
-DASHCAM_DIR="/media/pi/DASHCAM/DCIM"
-
-if [ -d "$DASHCAM_DIR" ]; then
-  MEDIA_CMD="celluloid \"$DASHCAM_DIR\""
-else
-  MEDIA_CMD="celluloid --fullscreen"
-fi
+HARUNA_CMD="flatpak run org.kde.haruna /media/pi/DASHCAM"
 
 kill_if_running() {
   pgrep -f "$1" && pkill -f "$1"
 }
 
 if pgrep -f react-carplay > /dev/null; then
-  # CarPlay is running → switch to media player
+  # Switch from CarPlay to Haruna
   kill_if_running react-carplay
   sleep 1
-  eval $MEDIA_CMD &
+  $HARUNA_CMD &
 else
-  # Media player is running or nothing → switch to CarPlay
-  kill_if_running celluloid
+  # Switch back to CarPlay
+  kill_if_running haruna
   sleep 1
   $CARPLAY_CMD &
 fi
