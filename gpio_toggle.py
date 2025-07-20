@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
-import RPi.GPIO as GPIO
-import subprocess, time
+from gpiozero import Button
+from signal import pause
+import subprocess
 
-PIN = 17
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+# GPIO pin 17 = BCM 17 = physical pin 11
+button = Button(17, pull_up=True)
 
-def cb(channel):
+def on_press():
+    print("[GPIO] Button pressed! Running toggle_media.sh")
     subprocess.call(['/usr/local/bin/toggle_media.sh'])
 
-GPIO.add_event_detect(PIN, GPIO.FALLING, callback=cb, bouncetime=200)
+button.when_pressed = on_press
 
-try:
-    while True:
-        time.sleep(1)
-except KeyboardInterrupt:
-    GPIO.cleanup()
+pause()  # Keep script running
