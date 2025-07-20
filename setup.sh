@@ -13,7 +13,7 @@ USER_HOME="/home/${SUDO_USER:-pi}"
 
 echo "Installing packages…"
 apt update
-apt install -y celluloid python3-rpi.gpio xbindkeys
+apt install -y haruna python3-rpi.gpio xbindkeys
 
 echo "Deploying toggle_media.sh…"
 install -m 755 "$REPO_DIR/toggle_media.sh" /usr/local/bin/toggle_media.sh
