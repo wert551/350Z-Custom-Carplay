@@ -61,7 +61,9 @@ if ! pgrep -x xbindkeys >/dev/null; then
 fi
 
 # Install kodi-send tool
-sudo apt install -y kodi-tools-text
+sudo apt update
+sudo apt install -y kodi-eventclients-kodi-send
+
 
 echo "Launching Kodi temporarily to allow configuration..."
 sudo -u "$SUDO_USER" DISPLAY=:0 kodi &
