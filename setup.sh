@@ -13,7 +13,7 @@ USER_HOME="/home/${SUDO_USER:-pi}"
 
 echo "Installing packages…"
 apt update
-apt install -y mpv celluloid python3-gpiozero xbindkeys git curl
+apt install -y mpv kodi python3-gpiozero xbindkeys git curl
 
 #--- Clone React-carplay-350z
 echo "Cloning React-CarPlay-350Z into ${USER_HOME}/react-carplay-350Z…"
