@@ -59,22 +59,9 @@ echo "Enabling xbindkeys in current session…"
 if ! pgrep -x xbindkeys >/dev/null; then
   sudo -u "${SUDO_USER:-pi}" DISPLAY=":0" xbindkeys
 fi
-
 # Install kodi-send tool
 sudo apt update
 sudo apt install -y kodi-eventclients-kodi-send
 
-
-echo "Launching Kodi temporarily to allow configuration..."
-sudo -u "$SUDO_USER" DISPLAY=:0 kodi &
-sleep 10  # wait for Kodi to fully load
-
-# Install and apply the Xperience1080 skin
-kodi-send --action="InstallAddon(skin.xperience1080)"
-sleep 3  # give time for skin to install
-kodi-send --action="Skin.Set(skin.xperience1080)"
-
-sleep 3  # give time for skin to apply
-pkill -f kodi
 
 echo "All done! Reboot to test. React-CarPlay will launch on boot, and GPIO17 or Right-Alt + S will toggle Kodi."
