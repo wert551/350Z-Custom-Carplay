@@ -60,6 +60,9 @@ if ! pgrep -x xbindkeys >/dev/null; then
   sudo -u "${SUDO_USER:-pi}" DISPLAY=":0" xbindkeys
 fi
 
+# Install kodi-send tool
+sudo apt install -y kodi-tools-text
+
 echo "Launching Kodi temporarily to allow configuration..."
 sudo -u "$SUDO_USER" DISPLAY=:0 kodi &
 sleep 10  # wait for Kodi to fully load
