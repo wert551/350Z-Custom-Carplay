@@ -1,0 +1,10 @@
+<advancedsettings>
+  <video>
+    <screen>
+      <width>720</width>
+      <height>1280</height>
+      <refresh>60.000000</refresh>
+      <fullscreen>true</fullscreen>
+    </screen>
+  </video>
+</advancedsettings>
