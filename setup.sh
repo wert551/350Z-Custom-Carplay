@@ -15,6 +15,11 @@ echo "Installing packages…"
 apt update
 apt install -y mpv kodi python3-gpiozero xbindkeys git curl
 
+echo "Configuring Kodi for portrait mode…"
+mkdir -p "$USER_HOME/.kodi/userdata"
+cp "$REPO_DIR/kodi/userdata/advancedsettings.xml" "$USER_HOME/.kodi/userdata/advancedsettings.xml"
+chown -R "${SUDO_USER:-pi}:${SUDO_USER:-pi}" "$USER_HOME/.kodi"
+
 #--- Clone React-carplay-350z
 echo "Cloning React-CarPlay-350Z into ${USER_HOME}/react-carplay-350Z…"
 su - "${SUDO_USER:-pi}" -c "git clone https://github.com/wert551/react-carplay-350Z.git ${USER_HOME}/react-carplay-350Z"
